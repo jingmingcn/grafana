@@ -307,7 +307,7 @@ Content-Type: application/json
 
 `PUT /api/orgs/:orgId`
 
-Update Organisation, fields *Adress 1*, *Adress 2*, *City* are not implemented yet.
+Update Organisation, fields *Address 1*, *Address 2*, *City* are not implemented yet.
 
 **Example Request**:
 
@@ -380,6 +380,8 @@ Authorization: Bearer eyJrIjoiT0tTcG1pUlY2RnVKZTFVaDFsNFZXdE9ZWmNrMkZYbk
   "role":"Viewer"
 }
 ```
+Note: The api will only work when you pass the admin name and password
+to the request http url, like http://admin:admin@localhost:3000/api/orgs/1/users
 
 **Example Response**:
 

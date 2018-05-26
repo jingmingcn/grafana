@@ -15,9 +15,10 @@ import (
 )
 
 var (
-	defaultDashboards string = "./test-dashboards/folder-one"
-	brokenDashboards  string = "./test-dashboards/broken-dashboards"
-	oneDashboard      string = "./test-dashboards/one-dashboard"
+	defaultDashboards = "./testdata/test-dashboards/folder-one"
+	brokenDashboards  = "./testdata/test-dashboards/broken-dashboards"
+	oneDashboard      = "./testdata/test-dashboards/one-dashboard"
+	containingId      = "./testdata/test-dashboards/containing-id"
 
 	fakeService *fakeDashboardProvisioningService
 )
@@ -75,6 +76,18 @@ func TestDashboardFileReader(t *testing.T) {
 					Updated: stat.ModTime().AddDate(0, 0, -1),
 					Slug:    "grafana",
 				})
+
+				reader, err := NewDashboardFileReader(cfg, logger)
+				So(err, ShouldBeNil)
+
+				err = reader.startWalkingDisk()
+				So(err, ShouldBeNil)
+
+				So(len(fakeService.inserted), ShouldEqual, 1)
+			})
+
+			Convey("Overrides id from dashboard.json files", func() {
+				cfg.Options["path"] = containingId
 
 				reader, err := NewDashboardFileReader(cfg, logger)
 				So(err, ShouldBeNil)
